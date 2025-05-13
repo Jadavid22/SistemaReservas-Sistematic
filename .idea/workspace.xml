@@ -13,18 +13,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/backend/SistemaReservas" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Jadavid22"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Jadavid22&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Jadavid22/SistemaReservas-Sistematic.git",
-    "accountId": "3ca81a25-8c20-416f-a326-18708cbeb33a"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Jadavid22/SistemaReservas-Sistematic.git&quot;,
+    &quot;accountId&quot;: &quot;3ca81a25-8c20-416f-a326-18708cbeb33a&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -37,7 +37,6 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/JUDAPITEC/Documents/David/Trabajos Universidad/Ingenieria de software/Proyecto",
     "node.js.detected.package.eslint": "true",
@@ -67,6 +66,7 @@
       <updated>1743716001635</updated>
       <workItem from="1743716002924" duration="390000" />
       <workItem from="1743716907186" duration="430000" />
+      <workItem from="1743717385694" duration="307000" />
     </task>
     <servers />
   </component>
