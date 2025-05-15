@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "usuario", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class Usuario {
 
     @Id
@@ -14,7 +15,9 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private Rol rol;
     private String nombre;
+    @Column(unique = true)
     private String email;
+    @Column(length = 60) 
     private String password;
 
     @OneToMany(mappedBy = "usuario")
@@ -45,8 +48,14 @@ public class Usuario {
     public String getPassword(){
         return this.password;
     }
-    public void setPassword(String password){
-        this.password= password;
+    public void setPassword(String password) {
+        // Validación básica para evitar hashes corruptos
+        if (password != null && password.startsWith("$2a$")) {
+            if (password.length() != 60) {
+                throw new IllegalArgumentException("Formato de hash BCrypt inválido");
+            }
+        }
+        this.password = password;
     }
 
     public Rol getRol() {
