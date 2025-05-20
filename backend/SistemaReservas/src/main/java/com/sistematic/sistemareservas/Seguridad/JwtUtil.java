@@ -1,5 +1,6 @@
 package com.sistematic.sistemareservas.Seguridad;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,6 +20,16 @@ public class JwtUtil {
     private Key getKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
+
+    public <T> T extractClaim(String token, java.util.function.Function<Claims, T> claimsResolver) {
+        final Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claimsResolver.apply(claims);
+    }
+
 
     public String generarToken(String username) {
         return Jwts.builder()
@@ -57,6 +68,10 @@ public class JwtUtil {
 
     private boolean estaExpirado(String token) {
         return extraerExpiration(token).before(new Date());
+    }
+
+    public String extractEmail(String token) {
+        return extractClaim(token, Claims::getSubject);
     }
 
     private Date extraerExpiration(String token) {

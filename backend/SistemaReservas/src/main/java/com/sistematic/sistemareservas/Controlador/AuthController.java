@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -41,9 +42,10 @@ public class AuthController {
             return ResponseEntity.badRequest()
                 .body("No se permite crear usuarios con rol ADMINISTRADOR desde el registro público.");
         }
-        
-        // Debug: Mostrar contraseña recibida
-        System.out.println("Contraseña recibida en JSON: " + usuario.getPassword());
+        if (usuarioService.buscarPorEmail(usuario.getEmail()).isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("El correo ya está registrado");
+        }
         
         // Codificación única
         String rawPassword = usuario.getPassword();
@@ -64,7 +66,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<?> login(@Validated @RequestBody LoginRequest request) {
         Optional<Usuario> usuario = usuarioService.buscarPorEmail(request.getEmail());
         
         // Logs seguros (sin mostrar contraseñas reales)
@@ -78,26 +80,5 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
-    @GetMapping("/test-encode")
-    public ResponseEntity<String> testEncode(@RequestParam String password) {
-        return ResponseEntity.ok(passwordEncoder.encode(password));
-    }
-    @GetMapping("/debug-encoder")
-    public ResponseEntity<?> debugEncoder() {
-        String testPassword = "testeo";
-        String encoded1 = passwordEncoder.encode(testPassword);
-        String encoded2 = passwordEncoder.encode(testPassword);
-        
-        boolean matches1 = passwordEncoder.matches(testPassword, encoded1);
-        boolean matches2 = passwordEncoder.matches(testPassword, encoded2);
-        
-        Map<String, Object> response = new HashMap<>();
-        response.put("encoded1", encoded1);
-        response.put("encoded2", encoded2);
-        response.put("matches1", matches1);
-        response.put("matches2", matches2);
-        response.put("encoderClass", passwordEncoder.getClass().getName());
-        
-        return ResponseEntity.ok(response);
-    }
+    
 }

@@ -25,7 +25,7 @@ public class Reserva {
     private Evento evento;
 
     @OneToOne
-    @JoinColumn(name = "pago_id")
+    @JoinColumn(name = "pago_id", unique = true)
     @JsonIgnoreProperties("reservas")
     private Pago pago;
 

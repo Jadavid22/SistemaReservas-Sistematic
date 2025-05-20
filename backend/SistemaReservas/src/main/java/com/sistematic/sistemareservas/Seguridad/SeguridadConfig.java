@@ -36,7 +36,10 @@ public class SeguridadConfig {
                 .requestMatchers(HttpMethod.GET, "/auth/test-encode").permitAll()
                 .requestMatchers(HttpMethod.GET, "/auth/debug-encoder").permitAll()
                 // Solo ADMIN puede gestionar eventos y usuarios
-                .requestMatchers("/eventos/**").hasRole("ADMINISTRADOR")
+                .requestMatchers(HttpMethod.POST, "/eventos/**").hasRole("ADMINISTRADOR")
+                .requestMatchers(HttpMethod.PUT, "/eventos/**").hasRole("ADMINISTRADOR")
+                .requestMatchers(HttpMethod.DELETE, "/eventos/**").hasRole("ADMINISTRADOR")
+
                 .requestMatchers("/usuarios/**").hasRole("ADMINISTRADOR")
 
                 // Solo USUARIO puede hacer reservas y pagos

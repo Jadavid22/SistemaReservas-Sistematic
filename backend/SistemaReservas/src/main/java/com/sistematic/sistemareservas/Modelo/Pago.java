@@ -17,6 +17,10 @@ public class Pago {
     @OneToOne(mappedBy = "pago")
     @JsonIgnore
     private Reserva reserva;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
 
     public Long getId() {
         return id;
@@ -48,5 +52,11 @@ public class Pago {
 
     public void setReserva(Reserva reserva) {
         this.reserva = reserva;
+    }
+    public Usuario getUsuario(){
+        return usuario;
+    }
+    public void setUsuario(Usuario usuario){
+        this.usuario = usuario;
     }
 }

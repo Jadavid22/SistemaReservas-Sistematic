@@ -1,6 +1,7 @@
 package com.sistematic.sistemareservas.Servicio;
 
 import com.sistematic.sistemareservas.Modelo.Pago;
+import com.sistematic.sistemareservas.Modelo.Usuario;
 import com.sistematic.sistemareservas.Repositorio.PagoRepository;
 import org.springframework.stereotype.Service;
 
@@ -31,5 +32,9 @@ public class PagoService {
     public void eliminarPago(Long id) {
         pagoRepository.deleteById(id);
     }
+    public List<Pago> listarPagosPorUsuario(Usuario usuario) {
+        return pagoRepository.findByUsuario(usuario);
+    }
+
 }
 
