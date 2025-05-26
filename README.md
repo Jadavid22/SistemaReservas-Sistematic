@@ -27,14 +27,24 @@ Sistematic es una plataforma de comercio electrónico moderna construida con Rea
 
 ## Estructura del Proyecto
 
+Frontend
 ```
-src/
+src/ 
 ├── components/         # Componentes reutilizables
 ├── context/           # Contextos de React
 ├── pages/             # Páginas de la aplicación
 ├── services/          # Servicios y APIs
 ├── styles/            # Estilos CSS
 └── utils/             # Utilidades y helpers
+```
+Backend
+```
+Java/
+├── Controlador/       # Controlan los métodos de entrada (API REST)
+├── Modelo/            # Modelos de cada tabla de la base de datos
+├── Repositorio/       # Interfaces que manejan la persistencia (JPA, consultas a BD)
+├── Servicio/          # Lógica de negocio de la aplicación
+├── Seguridad/         # Manejo de seguridad (JWT, filtros, roles)
 ```
 
 ## Instalación
