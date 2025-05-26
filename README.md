@@ -1,29 +1,27 @@
-# Rapid Mart - Plataforma de Comercio Electrónico
+# Sistematic - Plataforma de Reserva de eventos
 
-Rapid Mart es una plataforma de comercio electrónico moderna construida con React y Firebase, que permite a los usuarios realizar compras en línea y a los administradores gestionar productos y pedidos.
+Sistematic es una plataforma de comercio electrónico moderna construida con React y springboot, que permite a los usuarios realizar reservas en línea y a los administradores gestionar eventos y reservas.
 
 ## Características Principales
 
 ### Para Usuarios
 - Registro y autenticación de usuarios
-- Catálogo de productos con categorías
-- Carrito de compras
-- Proceso de pago seguro con Stripe
-- Historial de pedidos
-- Seguimiento de estado de pedidos
+- Catálogo de eventos con categorías
+- Proceso de pago seguro 
+- Historial de reservas
 
 ### Para Administradores
 - Panel de administración
-- Gestión de productos (CRUD)
-- Gestión de pedidos
+- Gestión de eventos (CRUD)
+- Gestión de reservas
 
 
 
 ## Tecnologías Utilizadas
 
 - **Frontend**: React.js, React Router, Context API
-- **Backend**: Firebase (Firestore, Authentication)
-- **Pagos**: Stripe
+- **Backend**: SpringBoot 
+- **Base de datos**: Mysql
 - **Estilos**: CSS Modules
 - **Control de Versiones**: Git
 
@@ -33,7 +31,6 @@ Rapid Mart es una plataforma de comercio electrónico moderna construida con Rea
 src/
 ├── components/         # Componentes reutilizables
 ├── context/           # Contextos de React
-├── firebase/          # Configuración de Firebase
 ├── pages/             # Páginas de la aplicación
 ├── services/          # Servicios y APIs
 ├── styles/            # Estilos CSS
@@ -44,31 +41,22 @@ src/
 
 1. Instalar dependencias:
 ```bash
-cd rapid-mart
+cd src
 npm install
 ```
 
-2. Configurar variables de entorno:
+2. Encender el backend:
+cd backend
+cd SistemasReservas
+./mvnw spring-boot:run
 
-Crear un archivo `.env` en la raíz del proyecto con las siguientes variables:
-```
-REACT_APP_FIREBASE_API_KEY=tu_api_key
-REACT_APP_FIREBASE_AUTH_DOMAIN=tu_auth_domain
-REACT_APP_FIREBASE_PROJECT_ID=tu_project_id
-REACT_APP_FIREBASE_STORAGE_BUCKET=tu_storage_bucket
-REACT_APP_FIREBASE_MESSAGING_SENDER_ID=tu_messaging_sender_id
-REACT_APP_FIREBASE_APP_ID=tu_app_id
-REACT_APP_STRIPE_PUBLIC_KEY=tu_stripe_public_key
-```
 
-3. Iniciar el servidor de desarrollo:
+4. Iniciar el servidor de react:
 
-Primero para iniciar el backend, usar los siguientes comandos:
+Primero iniciamos otra terminal usamos los siguientes comandos:
 
-"cd backend"
+"cd src"
 "npm start"
-
-Luego, en una nueva terminar ejecutar "npm start" para iniciar el frontend.
 
 
 ## Documentación Detallada
