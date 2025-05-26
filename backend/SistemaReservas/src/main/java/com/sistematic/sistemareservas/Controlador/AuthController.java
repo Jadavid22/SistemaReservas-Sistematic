@@ -6,6 +6,8 @@ import com.sistematic.sistemareservas.Servicio.UsuarioService;
 import com.sistematic.sistemareservas.Seguridad.JwtUtil;
 import com.sistematic.sistemareservas.Seguridad.dto.JwtResponse;
 import com.sistematic.sistemareservas.Seguridad.dto.LoginRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -20,83 +22,104 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
 
     private final UsuarioService usuarioService;
     private final JwtUtil jwtUtil;
-    private final PasswordEncoder passwordEncoder;
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
-    public AuthController(UsuarioService usuarioService, JwtUtil jwtUtil, 
-                        PasswordEncoder passwordEncoder) {
+    public AuthController(UsuarioService usuarioService, JwtUtil jwtUtil) {
         this.usuarioService = usuarioService;
         this.jwtUtil = jwtUtil;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/registro")
     public ResponseEntity<?> registrarUsuario(@RequestBody Usuario usuario) {
-        // Validación de rol
-        if (usuario.getRol() == Rol.ADMINISTRADOR) {
-            return ResponseEntity.badRequest()
-                .body("No se permite crear usuarios con rol ADMINISTRADOR desde el registro público.");
-        }
-        
-        // Debug: Mostrar contraseña recibida
-        System.out.println("Contraseña recibida en JSON: " + usuario.getPassword());
-        
-        // Codificación única
-        String rawPassword = usuario.getPassword();
-        String encodedPassword = passwordEncoder.encode(rawPassword);
-        System.out.println("Contraseña codificada: " + encodedPassword);
-        
-        usuario.setPassword(encodedPassword);
-        usuario.setRol(Rol.USUARIO);
-        
         try {
+            // Validación de rol
+            if (usuario.getRol() == Rol.ADMINISTRADOR) {
+                return ResponseEntity.badRequest()
+                    .body("No se permite crear usuarios con rol ADMINISTRADOR desde el registro público.");
+            }
+            
+            logger.info("Iniciando registro de usuario: {}", usuario.getEmail());
+            
             Usuario creado = usuarioService.crearUsuario(usuario);
-            System.out.println("Contraseña almacenada en BD: " + creado.getPassword());
+            logger.info("Usuario registrado exitosamente: {}", creado.getEmail());
+            
             return ResponseEntity.ok(creado);
-        } catch (DataIntegrityViolationException ex) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("El correo ya está registrado");
+        } catch (IllegalArgumentException e) {
+            logger.warn("Error de validación en registro: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            logger.error("Error al registrar usuario: {}", e.getMessage());
+            return ResponseEntity.internalServerError()
+                .body("Error al procesar el registro: " + e.getMessage());
         }
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        Optional<Usuario> usuario = usuarioService.buscarPorEmail(request.getEmail());
-        
-        // Logs seguros (sin mostrar contraseñas reales)
-        System.out.println("Intento de login para: " + request.getEmail());
-        
-        if (usuario.isEmpty() || !passwordEncoder.matches(request.getPassword(), usuario.get().getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
-        }
+        try {
+            logger.info("Intento de login para usuario: {}", request.getEmail());
+            
+            if (!usuarioService.verificarCredenciales(request.getEmail(), request.getPassword())) {
+                logger.warn("Credenciales inválidas para usuario: {}", request.getEmail());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Credenciales inválidas");
+            }
 
-        String token = jwtUtil.generarToken(usuario.get().getEmail());
-        return ResponseEntity.ok(new JwtResponse(token));
+            Optional<Usuario> usuario = usuarioService.buscarPorEmail(request.getEmail());
+            String token = jwtUtil.generarToken(
+                usuario.get().getEmail(),
+                usuario.get().getRol().name(),
+                usuario.get().getId()
+            );
+            
+            logger.info("Login exitoso para usuario: {}", request.getEmail());
+            return ResponseEntity.ok(new JwtResponse(token));
+        } catch (Exception e) {
+            logger.error("Error en login: {}", e.getMessage());
+            return ResponseEntity.internalServerError()
+                .body("Error al procesar el login: " + e.getMessage());
+        }
     }
 
     @GetMapping("/test-encode")
-    public ResponseEntity<String> testEncode(@RequestParam String password) {
-        return ResponseEntity.ok(passwordEncoder.encode(password));
+    public ResponseEntity<?> testEncode(@RequestParam String password) {
+        try {
+            String encoded = usuarioService.encodePassword(password);
+            boolean matches = usuarioService.verificarPassword(password, encoded);
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("original", password);
+            response.put("encoded", encoded);
+            response.put("matches", matches);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                .body("Error al probar codificación: " + e.getMessage());
+        }
     }
+
     @GetMapping("/debug-encoder")
     public ResponseEntity<?> debugEncoder() {
         String testPassword = "testeo";
-        String encoded1 = passwordEncoder.encode(testPassword);
-        String encoded2 = passwordEncoder.encode(testPassword);
+        String encoded1 = usuarioService.encodePassword(testPassword);
+        String encoded2 = usuarioService.encodePassword(testPassword);
         
-        boolean matches1 = passwordEncoder.matches(testPassword, encoded1);
-        boolean matches2 = passwordEncoder.matches(testPassword, encoded2);
+        boolean matches1 = usuarioService.verificarPassword(testPassword, encoded1);
+        boolean matches2 = usuarioService.verificarPassword(testPassword, encoded2);
         
         Map<String, Object> response = new HashMap<>();
         response.put("encoded1", encoded1);
         response.put("encoded2", encoded2);
         response.put("matches1", matches1);
         response.put("matches2", matches2);
-        response.put("encoderClass", passwordEncoder.getClass().getName());
+        response.put("encoderClass", usuarioService.getClass().getName());
         
         return ResponseEntity.ok(response);
     }

@@ -1,0 +1,1224 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f4f4;
+    color: #333;
+    min-height: 100vh;
+    width: 100%;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../images/Fondo.jpg') no-repeat center center fixed;
+    background-size: cover;
+    z-index: -1;
+    opacity: 1;
+}
+
+header {
+    width: 100%;
+    background-color: #FF3131;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    color: white;
+}
+
+.header .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.header .logo span {
+    font-size: 12px;
+}
+
+.header .perfil {
+    background-color: #702929;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.header .inicio {
+    background-color: #4b4b4b;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.header .perfil-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.header .perfil-btn {
+    background-color: transparent;
+    border: none;
+    color: #702929;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.navbar {
+    background-color: #702929;
+    padding: 10px;
+    color: white;
+}
+
+.search-container {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 50%;
+    top: 26px;
+    transform: translateX(-50%);
+}
+
+.search-box {
+    width: 500px;
+    padding: 9px;
+    border: none;
+    border-radius: 5px;
+}
+
+.search-btn {
+    background-color: #702929;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin-left: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+    list-style-type: none;
+}
+
+.menu li a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    font-weight: bold;
+}
+
+.main-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.banner {
+    width: 100%;
+    max-width: 800px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.category-item {
+    background-color: #b71c1c;
+    color: white;
+    width: 150px;
+    height: 180px;
+    display: flex;
+    flex-direction: column; /* Organiza la imagen arriba y el texto abajo */
+    align-items: center;
+    border-radius: 10px;
+    overflow: hidden;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.category-item:hover {
+    transform: scale(1.05);
+}
+
+.category-icon {
+    width: 90%;
+    height: 135px; /* Ajusta el tamaño de la imagen */
+    object-fit: cover;
+    border-bottom: 2px solid rgba(255, 255, 255, 0); /* Línea divisoria entre imagen y texto */
+}
+
+.category-text {
+    padding: 10px 0;
+    font-size: 16px;
+}
+
+.nav-button {
+    background-color: #702929;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.nav-button:hover {
+    background-color: #702929;
+}
+
+.header .perfil {
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.header .inicio {
+    position: absolute;
+    top: 10px;
+    right: 130px;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* Estilos para el carrito flotante */
+.cart-container {
+    position: fixed;
+    bottom: 90px;
+    left: 20px;
+    width: 300px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+}
+
+.cart-header {
+    background-color: #702929;
+    color: white;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    gap: 10px;
+}
+
+.cart-header h3 {
+    margin: 0;
+}
+
+.cart-header .cart-count {
+    margin-right: 25px; /* Espacio para que no se solape con el botón de cerrar */
+}
+
+.cart-items {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.cart-footer {
+    padding: 10px;
+    border-top: 1px solid #eee;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.checkout-btn {
+    width: 100%;
+    background-color: #FF3131;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.checkout-btn:hover {
+    background-color: #702929;
+}
+
+/* Estilo para los items del carrito */
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-icon {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #702929;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 24px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+.cart-icon .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #FF3131;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 50%;
+    font-size: 14px;
+}
+
+.hidden {
+    transform: translateX(-120%);
+}
+
+.close-cart {
+    position: relative; /* Cambiamos de absolute a relative */
+    right: 0;
+    top: 0;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 5px;
+}
+
+.productos-container {
+    padding: 20px;
+    max-width: 1400px;
+    margin: -20px auto 0;
+    width: 100%;
+}
+
+.productos-container h1 {
+    text-align: center;
+    color: #702929;
+    margin-bottom: 30px;
+    margin-top: 0;
+}
+
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    padding: 20px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.producto-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 400px;
+}
+
+.producto-card:hover {
+    transform: scale(1.03);
+}
+
+.producto-card img {
+    width: 80%;
+    height: 200px;
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+.producto-card h3 {
+    color: #702929;
+    margin: 10px 0;
+    font-size: 18px;
+    text-align: center;
+}
+
+.producto-card .descripcion {
+    color: #666;
+    font-size: 14px;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.precio-original {
+    color: #999;
+    text-decoration: line-through;
+    font-size: 14px;
+    margin: 5px 0;
+    text-align: center;
+}
+
+.precio {
+    color: #FF3131;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 5px 0;
+    text-align: center;
+}
+
+.agregar-carrito {
+    background-color: #702929;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: auto;
+    transition: background-color 0.3s ease;
+}
+
+.agregar-carrito:hover {
+    background-color: #FF3131;
+}
+
+.quantity-btn {
+    background: #702929;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 2px 8px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.quantity-btn:hover {
+    background: #FF3131;
+}
+
+.item-quantity {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.notification {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    background-color: #702929;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.cart-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+/* Modificar el estilo específico para la imagen del yogurt */
+.producto-card img[alt="Yogurt"] {
+    width: 80%;
+    height: 200px;
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+/* Agregar estilo específico para el texto del yogurt */
+.producto-card img[alt="Yogurt"] + h3 {
+    margin-top: 10px;
+}
+
+/* Agregar este estilo específico para la imagen del kumis */
+.producto-card img[alt="Kumis"] {
+    width: 70%;
+    height: 180px;
+    object-fit: contain;
+    margin: 10px auto;
+}
+
+/* Agregar estilo específico para la imagen del arequipe */
+.producto-card img[alt="Arequipe"] {
+    width: 95%;
+    height: 220px;
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+/* Agregar estilo específico para la imagen de la manzana */
+.producto-card img[alt="Manzana"] {
+    width: 80%;
+    height: 180px;
+    object-fit: contain;
+    margin: 10px auto;
+}
+
+/* Agregar estilo específico para la imagen del tomate */
+.producto-card img[alt="Tomate"] {
+    width: 75%;
+    height: 170px;
+    object-fit: contain;
+    margin: 10px auto;
+}
+
+/* Agregar estilo específico para la imagen de la cebolla */
+.producto-card img[alt="Cebolla"] {
+    width: 70%;
+    height: 160px;
+    object-fit: contain;
+    margin: 15px auto;
+}
+
+/* Agregar estilo específico para la imagen de la piña */
+.producto-card img[alt="Piña"] {
+    width: 95%;
+    height: 200px;
+    object-fit: contain;
+    margin: 12px auto;
+}
+
+/* Agregar estilo específico para la imagen del aguardiente */
+.producto-card img[alt="Aguardiente"] {
+    width: 70%;
+    height: 180px;
+    object-fit: contain;
+    margin: 10px auto;
+}
+
+/* Agregar estilo específico para la imagen del ron */
+.producto-card img[alt="Ron"] {
+    width: 70%;
+    height: 180px;
+    object-fit: contain;
+    margin: 10px auto;
+}
+
+/* Agregar estilo específico para la imagen del whisky */
+.producto-card img[alt="Whisky"] {
+    width: 70%;
+    height: 180px;
+    object-fit: contain;
+    margin: 10px auto;
+}
+
+/* Agregar estilo específico para la imagen del vino */
+.producto-card img[alt="Vino"] {
+    width: 70%;
+    height: 175px;
+    object-fit: contain;
+    margin: 15px auto;
+}
+
+/* Agregar estilo específico para la imagen del Baileys */
+.producto-card img[alt="Baileys"] {
+    width: 70%;
+    height: 175px;
+    object-fit: contain;
+    margin: 15px auto;
+}
+
+/* Agregar estilo específico para la imagen de la champaña */
+.producto-card img[alt="Champagne"] {
+    width: 70%;
+    height: 175px;
+    object-fit: contain;
+    margin: 15px auto;
+}
+
+/* Agregar estilo específico para la imagen del vino blanco */
+.producto-card img[alt="Vino Blanco"] {
+    width: 70%;
+    height: 175px;
+    object-fit: contain;
+    margin: 15px auto;
+}
+
+/* Agregar estilo específico para la imagen del Dog Chow */
+.producto-card img[alt="DogChow"] {
+    width: 70%;
+    height: 170px;
+    object-fit: contain;
+    margin: 15px auto;
+}
+
+/* Ajustar todas las imágenes de la sección de mascotas */
+.producto-card img[alt="DogChow"],
+.producto-card img[alt="Whiskas"],
+.producto-card img[alt="Arena"],
+.producto-card img[alt="JuguetePerro"],
+.producto-card img[alt="CollarPerro"],
+.producto-card img[alt="CamaMascota"],
+.producto-card img[alt="PlatoMascota"],
+.producto-card img[alt="ShampooMascota"],
+.producto-card img[alt="RascadorGato"],
+.producto-card img[alt="PeineMascota"],
+.producto-card img[alt="SnacksPerro"],
+.producto-card img[alt="Transportadora"] {
+    width: 70%;
+    height: 170px;
+    object-fit: contain;
+    margin: 15px auto;
+}
+
+/* Ajustar todas las imágenes de la sección de aseo */
+.producto-card img[alt="JabonPolvo"],
+.producto-card img[alt="Suavizante"],
+.producto-card img[alt="Blanqueador"],
+.producto-card img[alt="LimpiaPisos"],
+.producto-card img[alt="JabonBaño"],
+.producto-card img[alt="PapelHigienico"],
+.producto-card img[alt="Limpiavidrios"],
+.producto-card img[alt="Esponja"],
+.producto-card img[alt="Escoba"],
+.producto-card img[alt="Trapero"],
+.producto-card img[alt="Guantes"],
+.producto-card img[alt="Recogedor"] {
+    width: 70%;
+    height: 170px;
+    object-fit: contain;
+    margin: 15px auto;
+}
+
+/* Ajustar todas las imágenes de la sección de panadería */
+.producto-card img[alt="PanFrances"],
+.producto-card img[alt="Croissant"],
+.producto-card img[alt="PanIntegral"],
+.producto-card img[alt="PanQueso"],
+.producto-card img[alt="TortaChocolate"],
+.producto-card img[alt="Galletas"],
+.producto-card img[alt="PanMolde"],
+.producto-card img[alt="Brownie"],
+.producto-card img[alt="Empanadas"],
+.producto-card img[alt="Buñuelos"],
+.producto-card img[alt="Almojabanas"],
+.producto-card img[alt="Pandebono"] {
+    width: 70%;
+    height: 170px;
+    object-fit: contain;
+    margin: 15px auto;
+}
+
+/* Ajustar todas las imágenes de la sección de abarrotes */
+.producto-card img[alt="Arroz"],
+.producto-card img[alt="Aceite"],
+.producto-card img[alt="Azucar"],
+.producto-card img[alt="Frijoles"],
+.producto-card img[alt="Lentejas"],
+.producto-card img[alt="Pasta"],
+.producto-card img[alt="Sal"],
+.producto-card img[alt="Atun"],
+.producto-card img[alt="Cafe"],
+.producto-card img[alt="Chocolate"],
+.producto-card img[alt="Panela"],
+.producto-card img[alt="Sardinas"] {
+    width: 70%;
+    height: 170px;
+    object-fit: contain;
+    margin: 15px auto;
+}
+
+/* Estilos para el modal de productos */
+.product-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+}
+
+.modal-image {
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+.modal-description {
+    margin: 15px 0;
+    color: #666;
+    line-height: 1.5;
+}
+
+.modal-price {
+    font-size: 1.5em;
+    color: #FF3131;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #702929;
+}
+
+.modal-show {
+    display: flex;
+}
+
+/* Estilos para el botón de agregar al carrito en el modal */
+.agregar-carrito-modal {
+    background-color: #702929;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.agregar-carrito-modal:hover {
+    background-color: #FF3131;
+}
+
+/* Ajustes adicionales para el modal */
+.modal-content {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    text-align: center;
+}
+
+.modal-title {
+    color: #702929;
+    font-size: 1.5em;
+    margin: 15px 0;
+}
+
+.modal-image {
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    margin-bottom: 20px;
+}
+
+.modal-description {
+    margin: 15px 0;
+    color: #666;
+    line-height: 1.5;
+    font-size: 1.1em;
+}
+
+.modal-price {
+    font-size: 1.8em;
+    color: #FF3131;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+/* Estilos para la sección de promociones */
+.promociones-banner {
+    background-color: #FF3131;
+    color: white;
+    padding: 25px;
+    text-align: center;
+    margin-bottom: 30px;
+    border-radius: 15px;
+}
+
+.promociones-banner h2 {
+    font-size: 2.2em;
+    margin-bottom: 10px;
+}
+
+.promociones-banner p {
+    font-size: 1.2em;
+}
+
+.promocion {
+    position: relative;
+    border: 2px solid #FF3131;
+}
+
+.descuento-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff4444;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.precio-original {
+    color: #666;
+    text-decoration: line-through;
+    font-size: 0.9em;
+    margin: 5px 0;
+}
+
+.promocion .precio {
+    color: #FF3131;
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+/* Estilos para la sección de categorías */
+.categorias-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.categorias-container h1 {
+    text-align: center;
+    color: #702929;
+    margin-bottom: 30px;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.category-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+}
+
+.category-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+.category-card h3 {
+    color: #702929;
+    margin: 10px 0;
+    font-size: 1.2em;
+}
+
+.category-description {
+    color: #666;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+/* Estilos para la sección de servicios */
+.servicios-container {
+    padding: 40px;
+    max-width: 1400px;
+    margin: 120px auto 0;
+    width: 100%;
+}
+
+.servicios-container h1 {
+    text-align: center;
+    color: #702929;
+    margin-bottom: 30px;
+}
+
+.servicios-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    padding: 20px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.servicio-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.servicio-card:hover {
+    transform: translateY(-5px);
+}
+
+.servicio-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    margin-bottom: 25px;
+    border-radius: 10px;
+}
+
+.servicio-card h3 {
+    color: #702929;
+    margin: 15px 0;
+    font-size: 1.4em;
+}
+
+.servicio-description {
+    color: #666;
+    font-size: 1.1em;
+    margin: 15px 0;
+    line-height: 1.4;
+}
+
+.servicio-detalles {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.servicio-detalles li {
+    color: #444;
+    margin: 10px 0;
+    padding-left: 25px;
+    position: relative;
+}
+
+.servicio-detalles li:before {
+    content: "✓";
+    color: #702929;
+    position: absolute;
+    left: 0;
+}
+
+.solicitar-servicio {
+    background-color: #702929;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.solicitar-servicio:hover {
+    background-color: #FF3131;
+}
+
+/* Estilos para la sección de soporte */
+.soporte-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.soporte-container h1 {
+    text-align: center;
+    color: #702929;
+    margin-bottom: 30px;
+}
+
+.soporte-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px;
+}
+
+.soporte-section {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.soporte-section h2 {
+    color: #702929;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+/* Estilos para FAQ */
+.faq-item {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.faq-item h3 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.faq-item p {
+    color: #666;
+    line-height: 1.4;
+}
+
+/* Estilos para el formulario de contacto */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label {
+    color: #333;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.form-group textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+.submit-btn {
+    background-color: #702929;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #FF3131;
+}
+
+/* Estilos para información de contacto */
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.contact-item .icon {
+    font-size: 24px;
+    color: #702929;
+}
+
+.contact-details h3 {
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.contact-details p {
+    color: #666;
+    margin: 5px 0;
+}
+
+.chat-btn {
+    background-color: #702929;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.chat-btn:hover {
+    background-color: #FF3131;
+}
+
+.price-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 0.9em;
+    margin: 0;
+}
+
+.discounted-price {
+    color: #e44d26;
+    font-weight: bold;
+    margin: 0;
+}
+
+.descuento-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff4444;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.precio-original {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 0.9em;
+    margin: 0;
+}
+
+.precio {
+    color: #FF3131;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin: 5px 0;
+}
+
+/* Ajuste para productos con descuento en el modal */
+.modal-content .precio-original {
+    margin: 10px 0 5px 0;
+}
+
+/* Media queries para productos */
+@media screen and (max-width: 1200px) {
+    .servicios-container {
+        padding: 30px;
+    }
+    
+    .servicios-grid {
+        gap: 30px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .servicios-container {
+        padding: 20px;
+        margin-top: 180px;
+    }
+    
+    .servicios-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    
+    .servicio-card img {
+        height: 200px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .servicios-container {
+        padding: 15px;
+    }
+    
+    .servicios-grid {
+        gap: 20px;
+    }
+    
+    .servicio-card {
+        padding: 20px;
+    }
+    
+    .servicio-card img {
+        height: 180px;
+    }
+}

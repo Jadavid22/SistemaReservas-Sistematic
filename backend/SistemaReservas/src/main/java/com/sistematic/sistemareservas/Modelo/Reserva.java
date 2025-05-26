@@ -4,6 +4,7 @@ import java.util.Date;
 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class Reserva {
 
@@ -13,6 +14,12 @@ public class Reserva {
 
     private Date fechaReserva;
     private String estado;
+    private String userEmail;
+    private Integer cantidad = 1; // Valor por defecto de 1
+
+    @Column(name = "fecha_creacion")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaCreacion = new Date(); // Valor por defecto: fecha actual
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
@@ -25,7 +32,7 @@ public class Reserva {
     private Evento evento;
 
     @OneToOne
-    @JoinColumn(name = "pago_id")
+    @JoinColumn(name = "pago_id", nullable = true)
     @JsonIgnoreProperties("reservas")
     private Pago pago;
 
@@ -53,12 +60,39 @@ public class Reserva {
         this.estado = estado;
     }
 
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public Integer getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad != null ? cantidad : 1;
+    }
+
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion != null ? fechaCreacion : new Date();
+    }
+
     public Usuario getUsuario() {
         return usuario;
     }
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+        if (usuario != null) {
+            this.userEmail = usuario.getEmail();
+        }
     }
 
     public Evento getEvento() {

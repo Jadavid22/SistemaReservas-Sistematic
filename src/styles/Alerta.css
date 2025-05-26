@@ -1,0 +1,26 @@
+/* src/styles/Alerta.css */
+.alerta {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #702929;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0.9;
+}
+
+.cerrar-alerta {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2em;
+    margin-left: 10px;
+    cursor: pointer;
+}

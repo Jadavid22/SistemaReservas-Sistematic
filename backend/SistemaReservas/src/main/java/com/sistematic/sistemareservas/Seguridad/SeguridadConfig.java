@@ -12,6 +12,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import java.util.Arrays;
 
 @Configuration
 public class SeguridadConfig {
@@ -26,28 +30,68 @@ public class SeguridadConfig {
     }
 
     @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(10);
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
+        http
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 // Acceso público
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/registro").permitAll()
                 .requestMatchers(HttpMethod.GET, "/eventos/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/auth/test-encode").permitAll()
-                .requestMatchers(HttpMethod.GET, "/auth/debug-encoder").permitAll()
-                // Solo ADMIN puede gestionar eventos y usuarios
-                .requestMatchers("/eventos/**").hasRole("ADMINISTRADOR")
-                .requestMatchers("/usuarios/**").hasRole("ADMINISTRADOR")
-
-                // Solo USUARIO puede hacer reservas y pagos
-                .requestMatchers("/reservas/**", "/pagos/**").hasRole("USUARIO")
-
+                
+                // Rutas de eventos - Acceso para administradores
+                .requestMatchers(HttpMethod.POST, "/eventos/**").hasAuthority("ADMINISTRADOR")
+                .requestMatchers(HttpMethod.PUT, "/eventos/**").hasAuthority("ADMINISTRADOR")
+                .requestMatchers(HttpMethod.DELETE, "/eventos/**").hasAuthority("ADMINISTRADOR")
+                
+                // Rutas específicas para reservas - Accesibles por USUARIO y ADMINISTRADOR
+                .requestMatchers("/reservas/**").hasAnyAuthority("USUARIO", "ADMINISTRADOR")
+                
+                // Rutas para gestión de usuario
+                .requestMatchers("/usuarios/me").authenticated()
+                .requestMatchers("/usuarios/**").hasAuthority("ADMINISTRADOR")
+                
                 // Cualquier otra ruta requiere autenticación
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList(
+            "Authorization", 
+            "Content-Type", 
+            "Accept", 
+            "Origin", 
+            "X-Requested-With",
+            "Access-Control-Request-Method",
+            "Access-Control-Request-Headers"
+        ));
+        configuration.setExposedHeaders(Arrays.asList(
+            "Access-Control-Allow-Origin",
+            "Access-Control-Allow-Credentials",
+            "Access-Control-Allow-Methods",
+            "Access-Control-Allow-Headers"
+        ));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+        
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean
@@ -58,14 +102,8 @@ public class SeguridadConfig {
         return provider;
     }
 
-   @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @Bean
     public AuthenticationManager authManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
 }
