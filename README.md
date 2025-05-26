@@ -56,17 +56,18 @@ npm install
 ```
 
 2. Encender el backend:
-cd backend
-cd SistemasReservas
-./mvnw spring-boot:run
+
+- cd backend
+- cd SistemasReservas
+- ./mvnw spring-boot:run
 
 
 4. Iniciar el servidor de react:
 
 Primero iniciamos otra terminal usamos los siguientes comandos:
 
-"cd src"
-"npm start"
+- "cd src"
+- "npm start"
 
 
 ## Documentación Detallada
